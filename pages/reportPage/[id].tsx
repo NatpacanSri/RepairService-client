@@ -15,6 +15,7 @@ type ContentPageProps = {
 type Data = {
     _id: string
     item: {
+        _id:string,
         itemID: string,
         itemName: string,
     }
@@ -26,6 +27,7 @@ type Data = {
 type ResponeFromServer = {
     _id: string
     item: {
+        _id:string,
         itemID: string,
         itemName: string,
     }
@@ -46,6 +48,7 @@ export async function getServerSideProps({ params }
                 data: {
                     _id: responeFromServer._id,
                     item: {
+                        _id:responeFromServer.item._id,
                         itemID: responeFromServer.item.itemID,
                         itemName: responeFromServer.item.itemName,
                     },
@@ -62,6 +65,7 @@ export async function getServerSideProps({ params }
                 data: {
                     _id: "",
                     item: {
+                        _id:'',
                         itemID: '',
                         itemName: '',
                     },
@@ -79,7 +83,9 @@ export default function editReportForm({ data: { _id, item: { itemID, itemName }
     const { auth, user } = useAuth();
     const [searchValue, setSearchValue] = useState()
     // const [_user, setUser] = useState('')
-    const [_item_ID, setItem_ID] = useState(itemID)
+    const [_item_ID, setItem_ID] = useState('')
+    const [_itemID, setItemID] = useState(itemID)
+    const [_itemName, setItemName] = useState(itemName)
     const [_detail, setDetail] = useState(detail)
     const [_room, setRoom] = useState(room)
     const [_status, setStatus] = useState(status)
@@ -94,7 +100,7 @@ export default function editReportForm({ data: { _id, item: { itemID, itemName }
             let res = await fetch(`http://localhost:8080/item/search?itemID=${params}`)
             let data = await res.json()
             console.log(data)
-            setSearchValue(data.itemName)
+            setItemName(data.itemName)
             setItem_ID(data._id)
         } catch (err) {
             console.log(err)
@@ -110,24 +116,39 @@ export default function editReportForm({ data: { _id, item: { itemID, itemName }
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         // const userID = user?._id
-        if (_item_ID && _detail && _room && _status) {
+        if (_itemID && _detail && _room && _status) {
             try {
                 let res = await fetch('http://localhost:8080/report/edit/' + _id, {
                     method: "Put",
                     body: JSON.stringify({
-                        item:_item_ID, detail:_detail, room:_room, status:_status
+                        item:_itemID, detail:_detail, room:_room, status:_status
                     }),
                     headers: {
                         Accept: "application/json , text/plain, */*",
                         "Content-Type": "application/json"
                     }
                 })
-
                 res = await res.json()
-
                 router.push('/reportPage');
             } catch (err) {
                 console.log(err)
+            }
+        }if(_status === "ซ่อมสำเร็จ"){
+            console.log(_itemID)
+            try {
+                let res = await fetch(`http://localhost:8080/item/edit_?itemID=${_itemID}` , {
+                    method: "Put",
+                    body: JSON.stringify({
+                        status:"ปกติ"
+                    }),
+                    headers: {
+                        Accept: "application/json , text/plain, */*",
+                        "Content-Type": "application/json"
+                    }
+                })
+                res = await res.json()
+            } catch (error) {
+                console.log(error)
             }
         }
     }
@@ -137,7 +158,7 @@ export default function editReportForm({ data: { _id, item: { itemID, itemName }
         <div className='max-w-6xl min-h-[80vh] m-auto mt-10'>
 
             <div className='mb-6'>
-                <h1 className='text-2xl font-bold text-black '>แบบฟอร์มการแจ้งซ่อม</h1>
+                <h1 className='text-2xl font-bold text-black '>แบบฟอร์มแก้ไขการแจ้งซ่อม</h1>
                 <p className='text-gray-400 font-semibold mb-4'>ระบบแจ้งซ่อมแซ่มอุปกรณ์ วิทยาลัยการคอมพิวเตอร์</p>
             </div>
 
@@ -147,13 +168,13 @@ export default function editReportForm({ data: { _id, item: { itemID, itemName }
                     <div className='mb-6'>
                         <label className="block mb-2 text-base font-bold text-gray-900">ครุภัณฑ์ที่แจ้งซ่อม</label>
                         <div className='flex'>
-                            <input type="text" id="search-dropdown" placeholder="รหัสครุภัณฑ์"
-                                value={_item_ID ? _item_ID : ""}
+                            <input type="text" placeholder="รหัสครุภัณฑ์"
                                 onChange={e => search(e.target.value)}
+                                value={_itemID ? _itemID : ""}
                                 className=" block p-2.5 w-1/2 z-20 text-sm text-gray-900 bg-gray-50 rounded-l-lg  border-l-gray-300 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500" />
                             <select id="itemName"
                                 className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                                value={searchValue}>
+                                value={_itemName}>
                                 <option selected>เลือกครุภัณฑ์</option>
                                 <option value="จอภาพคอมพิวเตอร์ [ Monitor ]">จอภาพคอมพิวเตอร์ [ Monitor ]</option>
                                 <option value="จอภาพโปรเจคเตอร์ [ Projector ]">จอภาพโปรเจคเตอร์ [ Projector ]</option>
@@ -185,15 +206,18 @@ export default function editReportForm({ data: { _id, item: { itemID, itemName }
                     <div className="flex">
                         <select id="itemName"
                             className="bg-gray-50 border w-1/2 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                            value={_status}>
+                            onChange={e => setStatus(e.target.value)}
+                            value={_status}
+                            >
                             <option selected>เลือกสถานะ</option>
                             <option value="กำลังดำเนินการ">กำลังดำเนินการ</option>
                             <option value="ซ่อมสำเร็จ">ซ่อมสำเร็จ</option>
                         </select>
                         <button type="button"
                             onClick={handleSubmit}
-                            className="m-auto focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xl px-20 py-2 dark:focus:ring-yellow-900">แจ้งซ่อม</button>
-
+                            className="m-auto focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-xl px-20 py-2 dark:focus:ring-yellow-900">
+                                แก้ไขการแจ้งซ่อม
+                        </button>
                     </div>
                 </div>
             </form >

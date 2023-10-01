@@ -107,16 +107,16 @@ export default function Home({ reportsData, itemsData }: Props) {
         <div className='pl-4 flex'>
           <div className='m-auto w-full'>
 
-            <div className="border mb-5 w-full rounded-lg overflow-hidden border-blue-600">
+            <div className="bg-white mb-5 w-full rounded-lg overflow-hidden shadow-md">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-blue-600">
                 <thead className="bg-gray-50 dark:bg-blue-600">
                   <tr key={"01"}>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">หมายเลขครุภัณฑ์</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">อาการ</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">สถานะ</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase dark:text-white">หมายเลขครุภัณฑ์</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase dark:text-white">อาการ</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase dark:text-white">สถานะ</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-blue-600 overflow-y-scroll ">
+                <tbody className=" divide-y divide-gray-200 overflow-y-scroll ">
                   {reportsData?.length > 0 ? (
                     reportsData.map((report, index) => {
                       return (
@@ -138,16 +138,16 @@ export default function Home({ reportsData, itemsData }: Props) {
               </table>
             </div>
 
-            <div className="border w-full rounded-lg overflow-hidden border-blue-600">
+            <div className="bg-white mb-5 w-full rounded-lg overflow-hidden shadow-md">
               <table className="min-w-full divide-y divide-gray-200 dark:divide-blue-600">
                 <thead className="bg-gray-50 dark:bg-blue-600">
                   <tr key={"01"}>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">หมายเลขครุภัณฑ์</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">อาการ</th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">สถานะ</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase dark:text-white">หมายเลขครุภัณฑ์</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase dark:text-white">ครุภัณฑ์</th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase dark:text-white">สถานะ</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-blue-600">
+                <tbody className="divide-y divide-gray-200 overflow-y-scroll">
                   {itemsData?.length > 0 ? (
                     itemsData.map((items, index) => {
                       return (

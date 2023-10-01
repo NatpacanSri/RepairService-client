@@ -38,7 +38,7 @@ function navbar(props: Auth) {
 
     return (
         <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full text-sm">
-            <nav className="relative max-w-7xl w-full bg-white rounded-b-[10px] mx-2 py-3 px-4 md:flex md:items-center md:justify-between md:py-0 md:px-6 lg:px-8 xl:mx-auto dark:bg-blue-500 dark:white" aria-label="Global">
+            <nav className="shadow-lg relative max-w-7xl w-full bg-white rounded-b-[10px] mx-2 py-3 px-4 md:flex md:items-center md:justify-between md:py-0 md:px-6 lg:px-8 xl:mx-auto dark:bg-blue-500 dark:white" aria-label="Global">
                 <div className="flex items-center justify-between">
                     <Image height={30} width={30} src={logo} alt='logo' className='mr-3' />
                     <Link className="pl-3 border-l-2 flex-none text-xl font-semibold dark:text-white" href="/" aria-label="School">บริการแจ้งซ่อม</Link>
@@ -56,7 +56,9 @@ function navbar(props: Auth) {
                 <div id="navbar-collapse-with-animation" className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block">
                     <div className="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:items-center md:justify-end md:gap-y-0 md:gap-x-7 md:mt-0 md:pl-7">
                         <a className="font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-white dark:hover:text-blue-900" href="/">หน้าแรก</a>
+                        {props.auth ?
                         <a className="font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-white dark:hover:text-blue-900" href="/reportPage/form">แจ้งซ่อม</a>
+                        : null}
                         {user?.role == "เจ้าหน้าที่" ? <a className="font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-white dark:hover:text-blue-900" href="/itemPage">รายการครุภัณฑ์</a> : null}
                         {user?.role == "เจ้าหน้าที่" ? <a className="font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-white dark:hover:text-blue-900" href="/reportPage">รายการแจ้งซ่อม</a> : null}
                         {/* {user?.role == "เจ้าหน้าที่" ? <a className="font-medium text-gray-500 hover:text-gray-400 md:py-6 dark:text-white dark:hover:text-blue-900" href="/itemPage">รายการครุภัณฑ์</a> : null} */}

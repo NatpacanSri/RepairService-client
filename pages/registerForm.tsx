@@ -10,16 +10,17 @@ const registerForm = () => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [conPassword,setConPassword] = useState('')
     const [tel, setTel] = useState('')
     const [role, setRole] = useState('')
     const [error, setError] = useState('')
     const [message, setMessage] = useState('')
 
 
-    const handelSubmit = async (e:any) => {
+    const handelSubmit = async (e: any) => {
         e.preventDefault()
 
-        if (email && password ) {
+        if (email && password === conPassword ) {
             try {
                 await fetch('http://localhost:8080/user/register', {
                     method: "POST",
@@ -29,7 +30,7 @@ const registerForm = () => {
 
                 await router.push('/');
 
-            } catch (err:any) {
+            } catch (err: any) {
                 setError(err)
             }
 
@@ -39,12 +40,67 @@ const registerForm = () => {
     }
 
     return (
-        <div>
-            <div className="w-screen">
-                <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                    <form onSubmit={handelSubmit}>
+        <div className="flex max-w-6xl m-auto min-h-[80vh]">
+            <form onSubmit={handelSubmit} className='border bg-white rounded-xl p-5 m-auto w-full'>
+                <h1 className='text-3xl font-semibold text-blue-600 my-6 text-center'>สมัครสมาชิก</h1>
+                <div className='grid grid-cols-2'>
+                    <div className='border-r p-4'>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-base font-bold text-gray-900">อีเมล</label>
+                            <input type="text"
+                                onChange={e => setEmail(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-base font-bold text-gray-900">ตั้งรหัสผ่าน</label>
+                            <input type="password"
+                                onChange={e => setPassword(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-base font-bold text-gray-900">ยืนยันรหัสผ่าน</label>
+                            <input type="password"
+                                onChange={e => setConPassword(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                        </div>
+                    </div>
+                    <div className='p-4 border-l'>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-base font-bold text-gray-900">ชื่อผู้ใช้</label>
+                            <input type="text"
+                                onChange={e => setName(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-base font-bold text-gray-900">เบอร์โทรติดต่อ</label>
+                            <input type="text"
+                                onChange={e => setTel(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
+                        </div>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-base font-bold text-gray-900">ตำแหน่ง</label>
+                            <select id="itemName"
+                                onChange={(e) => setRole(e.target.value)}
+                                className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
+                                <option selected>เลือกตำแหน่ง</option>
+                                <option value="นักศึกษา">นักศึกษา</option>
+                                <option value="TA">TA</option>
+                                <option value="เจ้าหน้าที่">เจ้าหน้าที่</option>
+                                <option value="อาจารย์">อาจารย์</option>
+                            </select>
+                        </div>
+                    </div>
 
-                        <div className="border relative transform overflow-hidden rounded-lg bg-white text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:py-4">
+                </div>
+                <div className='flex my-6'>
+                    <button type="submit"
+                    className="m-auto focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-500 font-medium rounded-lg text-xl px-20 py-2">
+                        ยืนยันการสมัครสมาชิก
+                </button>
+                </div>
+                
+
+                {/* <div className="border rounded-lg bg-white text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:py-4">
                             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                                 <div className="sm:flex sm:items-start">
                                     <div className="mt-3 text-center sm:ml-4 sm:mt-0">
@@ -121,14 +177,9 @@ const registerForm = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="bg-white px-4 py-3 sm:flex sm:flex-col gap-4 sm:gap-2 sm:px-6">
-                                
-                            </div>
-                        </div>
-                    </form>
 
-                </div>
-            </div>
+                        </div> */}
+            </form>
         </div>
     );
 }

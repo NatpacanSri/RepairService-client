@@ -52,7 +52,7 @@ function Table({ datas }: Props) {
     }
 
     return (
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-blue-600">
+        <table className="bg-white min-w-full ">
             <thead className="bg-gray-50 dark:bg-blue-600">
                 <tr key={"01"}>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase dark:text-white">หมายเลขครุภัณฑ์</th>
@@ -61,7 +61,7 @@ function Table({ datas }: Props) {
                     <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase dark:text-white">แก้ไข/ลบ</th>
                 </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-blue-600">
+            <tbody className="divide-y divide-gray-200 overflow-y-scroll">
                 {datas?.length > 0 ? (
                     datas.map((item, index) => {
                         return (
@@ -181,7 +181,7 @@ export default function index(props: Props) {
             <div className="flex flex-col">
                 <div className="-m-1.5 overflow-x-auto">
                     <div className="p-1.5 min-w-full inline-block align-middle">
-                        <div className="border rounded-lg overflow-hidden dark:border-blue-600">
+                        <div className="border rounded-lg overflow-hidden shadow-md">
 
                             <Table datas={item} />
 

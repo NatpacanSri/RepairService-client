@@ -87,7 +87,7 @@ function Table({ datas }: Props) {
                     <th scope="col" className="px-6 py-3  text-xs font-medium text-gray-500 uppercase dark:text-white">แก้ไข/ลบ</th>
                 </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-blue-600">
+            <tbody className="divide-y divide-gray-200 ">
                 {datas?.length > 0 ? (
                     datas.map((report, index) => {
                         return (
@@ -173,7 +173,7 @@ export default function index(props: Props) {
             <div className="flex flex-col">
                 <div className="-m-1.5 overflow-x-auto">
                     <div className="p-1.5 min-w-full inline-block align-middle">
-                        <div className="border rounded-lg overflow-hidden dark:border-blue-600">
+                        <div className="bg-white shadow-md border rounded-lg overflow-hidden ">
 
                             <Table datas={item} />
 
