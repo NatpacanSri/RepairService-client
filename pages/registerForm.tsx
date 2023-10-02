@@ -20,22 +20,27 @@ const registerForm = () => {
     const handelSubmit = async (e: any) => {
         e.preventDefault()
 
-        if (email && password === conPassword ) {
-            try {
-                await fetch('http://localhost:8080/user/register', {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password, name, tel, role })
-                })
+        if (email && password ) {
+            if(password === conPassword){
+                try {
+                    await fetch('http://localhost:8080/user/register', {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password, name, tel, role })
+                    })
 
-                await router.push('/');
+                    await router.push('/');
 
-            } catch (err: any) {
-                setError(err)
+                } catch (err: any) {
+                    setError(err)
+                }
+            }else{
+            return setMessage("รหัสผ่านไม่ตรงกัน")
             }
+            
 
         } else {
-            return setError("All fields are required!! MotherFUcker idiot")
+            return setMessage("กรอกข้อมูลให้ครบ")
         }
     }
 
@@ -90,9 +95,13 @@ const registerForm = () => {
                             </select>
                         </div>
                     </div>
-
+                    
                 </div>
-                <div className='flex my-6'>
+                <div className='mt-6'>
+                    {message ? <p className='text-red-600 text-center'>{message}</p> : null}
+                    {error ? <p className='text-red-600 text-center'>error:{error}</p> : null}
+                </div>
+                <div className='flex mb-6 mt-3'>
                     <button type="submit"
                     className="m-auto focus:outline-none text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-500 font-medium rounded-lg text-xl px-20 py-2">
                         ยืนยันการสมัครสมาชิก

@@ -21,21 +21,29 @@ export default function loginForm(props: any) {
 
         if (email && password) {
             try {
-                await fetch('http://localhost:8080/user/login', {
+                const response = await fetch('http://localhost:8080/user/login', {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
                     body: JSON.stringify({ email, password })
                 })
-
-                setOpen(false)
-                window.location.reload();
+                if (response.status === 404) {
+                    const errorData = await response.json(); // Parse the response JSON
+                    setError(errorData.message);
+                }else if(response.status === 400){
+                    const errorData = await response.json(); // Parse the response JSON
+                    setError(errorData.message);
+                }else{
+                    setOpen(false)
+                    window.location.reload();
+                }
+                
             } catch (err: any) {
                 setError(err)
             }
 
         } else {
-            return setError("All fields are required!! MotherFUcker idiot")
+            return setError("กรอกข้อมูลให้ครบ")
         }
     }
 
@@ -95,8 +103,8 @@ export default function loginForm(props: any) {
                                                     onChange={e => setPassword(e.target.value)}
                                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " />
                                             </div>
-                                            <p>{message ? <div className="text-green-500">{message}</div> : null}
-                                                {error ? <div className="text-red-500">{error}</div> : null}
+                                            <p>{message ? <div className="text-green-500 text-center">{message}</div> : null}
+                                                {error ? <div className="text-red-500 text-center">{error}</div> : null}
                                             </p>
                                             <div>
                                                 <div className="bg-white px-4 py-3 sm:flex sm:flex-col gap-4 sm:gap-2 sm:px-6">
